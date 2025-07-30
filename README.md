@@ -7,7 +7,7 @@ Simple BepInEx plug-in for *Night In The Woods*, a game by Infinite Fall. With t
 ## Installation and usage
 - Build the plug-in from source with `dotnet build`, or download the pre-built one if available 
 - Put this plug-in folder inside `<GAME_ROOT_DIRECTORY>\BepInEx\plugins`
-- Run the game to test whether this plug-in is working correctly. The default trigger key is `j`
+- Run the game to test whether this plug-in is working correctly. The default key for displaying and advancing custom speech bubbles (trigger key) is `j`
 - Quotes and trigger key for quotes can be configured by modifying respective entries in `<GAME_ROOT_DIRECTORY>\BepInEx\config\nxhd.nitwcustomspeechmod.cfg`. Individual quotes should be separated by `;`, and trigger key should be in `lowercase`
 - Errors, if there are any, are logged in `<GAME_ROOT_DIRECTORY>\BepInEx\LogOutput.log`.
 ## Tools used during plugin development

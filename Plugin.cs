@@ -53,24 +53,26 @@ static class AddPlayerCustomDialogPatch
             {
                 SpeechBubble.CloseAll();
 
-                // global::UnityEngine.Object.Instantiate<SpeechBubble>(Global.prefabs.speechBubbles[0])
-                // .Say()
-                SpeechBubble.CreateSpeechBubble(
-                    Global.dialogue,
-                    SpeechBubble.Type.Normal,
-                    Global.player.GetComponent<Character>(),
-                    true,
-                    Plugin.CustomQuotes.Value.Split(';')[Plugin.CurrentQuoteIndex],
-                    0
-                );
+                string[] quotes = Plugin.CustomQuotes.Value.Split(';');
 
-                if (Plugin.CurrentQuoteIndex >= Plugin.CustomQuotes.Value.Length - 1)
+                if (Plugin.CurrentQuoteIndex < quotes.Length)
                 {
-                    Plugin.CurrentQuoteIndex = 0;
+                    // global::UnityEngine.Object.Instantiate<SpeechBubble>(Global.prefabs.speechBubbles[0])
+                    // .Say()
+                    SpeechBubble.CreateSpeechBubble(
+                        Global.dialogue,
+                        SpeechBubble.Type.Normal,
+                        Global.player.GetComponent<Character>(),
+                        true,
+                        quotes[Plugin.CurrentQuoteIndex],
+                        0
+                    );
+
+                    Plugin.CurrentQuoteIndex += 1;
                 }
                 else
                 {
-                    Plugin.CurrentQuoteIndex += 1;
+                    Plugin.CurrentQuoteIndex = 0;
                 }
             }
         } 
