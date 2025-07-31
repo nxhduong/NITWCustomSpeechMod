@@ -14,7 +14,6 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<string> TriggerKey;
     public static ConfigEntry<string> CustomQuotes;
     public static uint CurrentQuoteIndex = 0;
-
     public static new ManualLogSource Logger;
 
     private void Awake()
@@ -23,19 +22,19 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} loaded.");
 
         TriggerKey = Config.Bind(
-            "NITWCustomSpeechMod", 
-            "TriggerKey", 
-            "j", 
-            "Key that when pressed will display your custom speech bubble, e.g. a, 1, f1, insert, left ctrl, right"
+            section: "NITWCustomSpeechMod", 
+            key: "TriggerKey", 
+            defaultValue: "j", 
+            description: "Key that when pressed will display/close your custom speech bubble, e.g. a, 1, f1, insert, left ctrl, right"
         );
         CustomQuotes = Config.Bind(
-            "NITWCustomSpeechMod", 
-            "Quotes", 
-            $"Uhh...can someone prompt me my line? (BepInEx/config/{MyPluginInfo.PLUGIN_GUID}.cfg, 'Quotes' entry)", 
-            "Quotes for Mae to say"
+            section: "NITWCustomSpeechMod", 
+            key: "Quotes", 
+            defaultValue: $"Uhh...can someone prompt me my line? (BepInEx/config/{MyPluginInfo.PLUGIN_GUID}.cfg, \"Quotes\" entry)", 
+            description: "Quotes for Mae to say"
         );
 
-        var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+        var harmony = new Harmony(id: MyPluginInfo.PLUGIN_GUID);
         harmony.PatchAll(typeof(AddPlayerCustomDialogPatch));
     }
 }
@@ -57,15 +56,13 @@ static class AddPlayerCustomDialogPatch
 
                 if (Plugin.CurrentQuoteIndex < quotes.Length)
                 {
-                    // global::UnityEngine.Object.Instantiate<SpeechBubble>(Global.prefabs.speechBubbles[0])
-                    // .Say()
                     SpeechBubble.CreateSpeechBubble(
-                        Global.dialogue,
-                        SpeechBubble.Type.Normal,
-                        Global.player.GetComponent<Character>(),
-                        true,
-                        quotes[Plugin.CurrentQuoteIndex],
-                        0
+                        dialogue: Global.dialogue,
+                        type: SpeechBubble.Type.Normal,
+                        character: Global.player.GetComponent<Character>(),
+                        hasTail: true,
+                        text: quotes[Plugin.CurrentQuoteIndex],
+                        numOptions: 0
                     );
 
                     Plugin.CurrentQuoteIndex += 1;
